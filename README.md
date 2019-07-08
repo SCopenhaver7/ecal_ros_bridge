@@ -1,5 +1,6 @@
 # ecal_ros_bridge
 This package is a template for creating a bridge between ROS and eCAL
+
 Tested on ROS kinetic and eCAL 5.3.2
 
 ## Set Up
