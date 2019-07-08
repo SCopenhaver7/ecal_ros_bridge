@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+
+package pb.Encoder;
+
+message Encoder
+{
+
+  int32  vel              = 1;
+
+}
