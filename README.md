@@ -18,3 +18,5 @@ In this node, add subscribers to any eCAL messages that you wish to pass to ROS 
 
 ### Protobuf Messages
 To add a new protobuf message, place your `.proto` file in the `protobuf` folder, then add the line `generate_proto(<your_message_name>_proto protobuf/<your_message_name>.proto)` to the CMakeLists
+
+See https://developers.google.com/protocol-buffers/docs/cpptutorial for more info on how to create protobuf messages
