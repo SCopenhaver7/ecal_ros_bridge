@@ -15,8 +15,7 @@ std::string passthrough = "";
 // Pass recieved ROS message to main eCAL loop
 void ROSCallback(const std_msgs::String::ConstPtr& str)
 {
-  //ROS_INFO("Velocity: %f", vel->data);
-  passthrough = str-> data;
+  passthrough = str->data.c_str();
 }
 
 int main(int argc, char **argv)
@@ -40,8 +39,6 @@ int main(int argc, char **argv)
   {
 	msg.set_data(passthrough);
 	pub.Send(msg);
-
-    //std::cout << "car velocity : " << encoder.vel() << std::endl;
 	
 	ros::spinOnce();
 	loop_rate.sleep();
