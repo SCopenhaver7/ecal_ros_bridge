@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+
+package pkgName;
+
+message msgName
+{
+
+  string data = 1;
+
+}

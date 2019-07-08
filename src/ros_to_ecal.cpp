@@ -1,6 +1,5 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include "std_msgs/Float32.h"
 
 #include <ecal/ecal.h>
 #include <ecal/msg/protobuf/publisher.h>
@@ -9,39 +8,38 @@
 #include <chrono>
 #include <thread>
 
-#include "ecal_bridge/protobuf/encoder.pb.h"
+#include "ecal_bridge/protobuf/msgName.pb.h"
 
-float passthrough = 0;
+std::string passthrough = "";
 
 // Pass recieved ROS message to main eCAL loop
-void velCallback(const std_msgs::Float32::ConstPtr& vel)
+void ROSCallback(const std_msgs::String::ConstPtr& str)
 {
   //ROS_INFO("Velocity: %f", vel->data);
-  passthrough = vel-> data;
+  passthrough = str-> data;
 }
 
 int main(int argc, char **argv)
 {
   // Initialize eCAL process and publisher
-  eCAL::Initialize(argc, argv, "encoder publisher");
-  eCAL::Process::SetState(proc_sev_healthy, proc_sev_level1, "I drive good !");
-  eCAL::protobuf::CPublisher<pb::Encoder::Encoder> pub("encoder");
+  eCAL::Initialize(argc, argv, "message publisher");
+  eCAL::Process::SetState(proc_sev_healthy, proc_sev_level1, "I feel good !");
+  eCAL::protobuf::CPublisher<pkgName::msgName> pub("testMsg_eCAL");
   pub.SetRefFrequency(1.0, 3.0);
-  pb::Encoder::Encoder encoder;
+  pkgName::msgName msg;
   
   // Initialize ROS node and subscriber
   ros::init(argc, argv, "listener");
   ros::NodeHandle n;
-  ros::Subscriber vel_sub = n.subscribe<std_msgs::Float32>("velocity", 1000, velCallback);
+  ros::Subscriber msgName_sub = n.subscribe<std_msgs::String>("testMsg_ROS", 1000, ROSCallback);
   
   // Setup loop to publish eCAL messages 
   int count = 0;
   ros::Rate loop_rate(10);
   while(ros::ok())
   {
-	encoder.set_vel(passthrough);
-	pub.SetID(++count);
-	pub.Send(encoder);
+	msg.set_data(passthrough);
+	pub.Send(msg);
 
     //std::cout << "car velocity : " << encoder.vel() << std::endl;
 	

@@ -57,22 +57,16 @@ include_directories(
 
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-generate_proto(encoder_proto protobuf/encoder.proto)
+generate_proto(msgName_proto protobuf/msgName.proto)
 
-add_executable(bridge_node src/bridge_node.cpp)
+add_executable(ros_to_ecal src/ros_to_ecal.cpp)
 
-target_link_libraries(bridge_node
+target_link_libraries(ros_to_ecal
    ${catkin_LIBRARIES}
    protobuf 
    eCAL::core 
    ${PROTOBUF_LIBRARY}
-   encoder_proto
- )
- 
- add_executable(fake_encoder src/fake_encoder_pub.cpp)
- 
- target_link_libraries(fake_encoder
-   ${catkin_LIBRARIES}
+   msgName_proto
  )
  
  add_executable(ecal_to_ros src/ecal_to_ros.cpp)
@@ -82,5 +76,5 @@ target_link_libraries(bridge_node
    protobuf 
    eCAL::core 
    ${PROTOBUF_LIBRARY}
-   encoder_proto
+   msgName_proto
  )
